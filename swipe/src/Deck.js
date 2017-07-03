@@ -7,9 +7,13 @@ import {
 
 export default class Deck extends Component {
 
+  renderCard = () => this.props.data.map(item => this.props.renderCard(item))
+
   render() {
     return (
-      <View />
+      <View>
+        {this.renderCard()}
+      </View>
     )
   }
 }
