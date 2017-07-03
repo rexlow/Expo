@@ -26,16 +26,41 @@ export default class Deck extends Component {
     this.state = { panResponder, pos }
   }
 
-  renderCard = () => this.props.data.map(item => this.props.renderCard(item))
+  getCardStyle = () => {
+    const { pos } = this.state;
+    const rotate = pos.x.interpolate({
+      inputRange: [-500, 0, 500],
+      outputRange: ['-120deg', '0deg', '120deg']
+    })
+    return {
+      ...pos.getLayout(), //returns an object
+      transform: [{ rotate }]
+    }
+  }
+
+  renderCard = () => {
+    return this.props.data.map((item, index) => {
+      if (index === 0) { // only animate first card
+        return (
+          <Animated.View
+            key={item.id}
+            style={this.getCardStyle()}
+            {...this.state.panResponder.panHandlers}>
+            {this.props.renderCard(item)}
+          </Animated.View>
+        )
+      }
+
+      return this.props.renderCard(item)
+    })
+  }
 
   render() {
     return (
       // passing callbacks to view component
-      <Animated.View 
-        style={this.state.pos.getLayout()}
-        {...this.state.panResponder.panHandlers}>
+      <View>
         {this.renderCard()}
-      </Animated.View>
+      </View>
     )
   }
 }
