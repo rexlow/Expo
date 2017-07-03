@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
 export default class Deck extends Component {
 
@@ -23,7 +24,15 @@ export default class Deck extends Component {
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => pos.setValue({ x: gesture.dx, y: gesture.dy }),
-      onPanResponderRelease: () => this.resetPosition()
+      onPanResponderRelease: (event, gesture) => {
+        if (gesture.dx > SWIPE_THRESHOLD) {
+          this.forceSwipe('right');
+        } else if (gesture.dx < -SWIPE_THRESHOLD) {
+          this.forceSwipe('left');
+        } else {
+          this.resetPosition()
+        }
+      }
     });
     
     this.state = { panResponder, pos }
@@ -35,6 +44,14 @@ export default class Deck extends Component {
         x: 0,
         y: 0
       }
+    }).start();
+  }
+
+  forceSwipe = (direction) => {
+    const x = direction === 'right' ? SCREEN_WIDTH : -SCREEN_WIDTH;
+    Animated.timing(this.state.pos, {
+      toValue: { x, y: 0 },
+      duration: 250
     }).start()
   }
 
