@@ -1,3 +1,7 @@
+// goal is to make sure card stays as close as to the user's finger
+// onStartShouldSetPanResponder: gets called when user press on the screen
+// onPanResponderMove: callback when user move around the screen, dragging
+
 import React, { Component } from 'react';
 
 import {
@@ -11,20 +15,15 @@ export default class Deck extends Component {
   constructor(props) {
     super(props);
 
-    // its a self-contained object
-    const panResponder = PanResponder.create({
+    const pos = new Animated.ValueXY();
 
-      
-      onStartShouldSetPanResponder: () => true, // gets called when user press on the screen
-      onPanResponderMove: (event, gesture) => { // callback when user move around the screen, dragging
-        
-      },
+    const panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (event, gesture) => pos.setValue({ x: gesture.dx, y: gesture.dy }),
       onPanResponderRelease: () => {}
     });
     
-    // this.panResponder = panResponder;
-
-    this.state = { panResponder }
+    this.state = { panResponder, pos }
   }
 
   renderCard = () => this.props.data.map(item => this.props.renderCard(item))
@@ -32,9 +31,11 @@ export default class Deck extends Component {
   render() {
     return (
       // passing callbacks to view component
-      <View {...this.state.panResponder.panHandlers}>
+      <Animated.View 
+        style={this.state.pos.getLayout()}
+        {...this.state.panResponder.panHandlers}>
         {this.renderCard()}
-      </View>
+      </Animated.View>
     )
   }
 }
