@@ -7,7 +7,9 @@ import React, { Component } from 'react';
 import {
   Animated,
   Dimensions,
+  LayoutAnimation,
   PanResponder,
+  UIManager,
   View,
 } from 'react-native';
 
@@ -41,6 +43,19 @@ export default class Deck extends Component {
     });
     
     this.state = { panResponder, pos, index: 0 }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data !== this.props.data) {
+      this.setState({ index: 0 })
+    }
+  }
+
+  componentWillUpdate() {
+    // if this function exists, then call it with value of true
+    // for android only
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();  
   }
 
   resetPosition = () => {
@@ -101,7 +116,9 @@ export default class Deck extends Component {
       }
 
       return (
-        <Animated.View key={item.id} style={styles.cardStyle}>
+        <Animated.View 
+          key={item.id} 
+          style={[styles.cardStyle, { top: 10 * (index - this.state.index)}]}>
           {this.props.renderCard(item)}
         </Animated.View>
       )
