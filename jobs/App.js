@@ -2,6 +2,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 import Reactotron from 'reactotron-react-native';
 import './ReactotronConfig'
 
@@ -31,6 +34,10 @@ const MainNavigator = TabNavigator({
 
 export default class App extends React.Component {
   render() {
-    return <MainNavigator />
+    return (
+      <Provider store={store}> 
+        <MainNavigator />
+      </Provider>
+    )
   }
 }
