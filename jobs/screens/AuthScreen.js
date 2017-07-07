@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 import Reactotron from 'reactotron-react-native';
 
-export default class AuthScreen extends Component {
+class AuthScreen extends Component {
+
+  componentDidMount() {
+    this.props.facebookLogin();
+    // AsyncStorage.removeItem('fb_token')
+  }
+
   render() {
-    Reactotron.log('auth')
     return (
       <View style={styles.container}>
         <Text>Auth Screen</Text>
@@ -22,3 +29,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+// const mapStateToProps = state => {
+//   return {
+//     auth: state.auth
+//   }
+// }
+
+export default connect(null, actions)(AuthScreen);
