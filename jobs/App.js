@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import Reactotron from 'reactotron-react-native';
 import './ReactotronConfig'
 
 export default class App extends React.Component {
   render() {
+    Reactotron.log('yoyo')
     return (
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
