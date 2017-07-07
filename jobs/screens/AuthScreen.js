@@ -12,7 +12,19 @@ class AuthScreen extends Component {
     // AsyncStorage.removeItem('fb_token')
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.onAuthComplete(nextProps)
+  }
+
+  onAuthComplete = (props) => {
+    Reactotron.log(props)
+    if (props.auth.token) {
+      this.props.navigation.navigate('map')
+    }
+  }
+
   render() {
+    Reactotron.log(this.props.auth)
     return (
       <View style={styles.container}>
         <Text>Auth Screen</Text>
@@ -30,10 +42,10 @@ const styles = StyleSheet.create({
   },
 });
 
-// const mapStateToProps = state => {
-//   return {
-//     auth: state.auth
-//   }
-// }
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+}
 
-export default connect(null, actions)(AuthScreen);
+export default connect(mapStateToProps, actions)(AuthScreen);
