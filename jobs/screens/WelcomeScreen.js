@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
+import Reactotron from 'reactotron-react-native';
+
 import Slides from '../components/Slides';
 
 const SLIDE_DATA = [
@@ -10,7 +12,9 @@ const SLIDE_DATA = [
 ]
 
 export default class WelcomeScreen extends Component {
+  onSlideComplete = () => this.props.navigation.navigate('auth');
+
   render() {
-    return <Slides data={SLIDE_DATA} />
+    return <Slides data={SLIDE_DATA} onComplete={this.onSlideComplete} />
   }
 }
