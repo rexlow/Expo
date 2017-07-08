@@ -1,5 +1,8 @@
+import _ from 'lodash';
+
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, AsyncStorage} from 'react-native';
+import { AppLoading } from 'expo';
 
 import Reactotron from 'reactotron-react-native';
 
@@ -12,9 +15,26 @@ const SLIDE_DATA = [
 ]
 
 export default class WelcomeScreen extends Component {
+
+  state = {
+    token: null
+  }
+
+  async componentWillMount() {
+    let token = await AsyncStorage.getItem('fb_token')
+    if (token) {
+      this.props.navigation.navigate('map')
+    } else {
+      this.setState({ token: false })
+    }
+  }
+
   onSlideComplete = () => this.props.navigation.navigate('auth');
 
   render() {
+    if (_.isNull(this.state.token)) {
+      return <AppLoading />
+    }
     return <Slides data={SLIDE_DATA} onComplete={this.onSlideComplete} />
   }
 }
