@@ -2,6 +2,8 @@ import axios from "axios";
 import reverseGeocode from "latlng-to-zip";
 import qs from "qs";
 
+import Reactotron from 'reactotron-react-native';
+
 import { FETCH_JOBS } from "./types";
 
 const JOB_ROOT_URL = 'http://api.indeed.com/ads/apisearch?';
@@ -19,13 +21,14 @@ const buildJobsUrl = (zipCode) => {
   return `${JOB_ROOT_URL}${query}`;
 }
 
-export const fetchJobs = region => async dispatch => {
+export const fetchJobs = (region, callback) => async dispatch => {
   try {
     let zipCode = await reverseGeocode(region);
     const url = buildJobsUrl(zipCode);
     let { data } = await axios.get(url);
     dispatch({ type: FETCH_JOBS, payload: data });
+    callback(); // navigate user to deck screen
   } catch (error) {
-    console.error(error);
+    Reactotron.log(error)
   }
 };

@@ -27,7 +27,11 @@ class MapScreen extends Component {
 
   onRegionChangeComplete = (region) => this.setState({ region })
 
-  onButtonPress = () => this.props.fetchJobs(this.state.region)
+  onButtonPress = () => {
+    this.props.fetchJobs(this.state.region, () => {
+      this.props.navigation.navigate('deck')
+    })
+  }
 
   render() {
     if (!this.state.mapLoaded) {
@@ -70,11 +74,5 @@ const styles = StyleSheet.create({
     right: 0
   }
 });
-
-// const mapStateToProps = state => {
-//   return {
-
-//   }
-// }
 
 export default connect(null, actions)(MapScreen);
