@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
 
 import { MapView } from 'expo';
-import { Button, Card } from 'react-native-elements';
+import { Button, Card, Icon } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -12,6 +12,11 @@ import Reactotron from 'reactotron-react-native';
 import Swipe from '../components/Swipe';
 
 class DeckScreen extends Component {
+
+  static navigationOptions = {
+    title: 'Jobs',
+    tabBarIcon: ({ tintColor }) => <Icon name="description" size={28} color={tintColor} />
+  }
 
   renderCard = job => {
     const initialRegion = {

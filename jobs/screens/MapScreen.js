@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import { MapView } from 'expo';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
 import Reactotron from 'reactotron-react-native';
 
 class MapScreen extends Component {
+
+  static navigationOptions = {
+    title: 'Map',
+    tabBarIcon: ({ tintColor }) => <Icon name="my-location" size={28} color={tintColor} />
+  }
 
   state = {
     mapLoaded: false,

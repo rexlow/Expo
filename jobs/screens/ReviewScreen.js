@@ -12,12 +12,13 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 
 import Reactotron from "reactotron-react-native";
-import { Button, Card } from "react-native-elements";
+import { Button, Card, Icon } from "react-native-elements";
 import { MapView } from "expo";
 
 class ReviewScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Review Jobs",
+    tabBarIcon: ({ tintColor }) => <Icon name="favorite" size={28} color={tintColor} />,
     headerRight: (
       <Button
         title="Settings"
