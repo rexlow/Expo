@@ -1,5 +1,5 @@
 import {
-  FETCH_JOBS
+  FETCH_JOBS,
 } from '../actions/types';
 
 const INITIAL_STATE = {

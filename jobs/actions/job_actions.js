@@ -4,7 +4,10 @@ import qs from "qs";
 
 import Reactotron from 'reactotron-react-native';
 
-import { FETCH_JOBS } from "./types";
+import { 
+  FETCH_JOBS,
+  LIKE_JOB,
+} from "./types";
 
 const JOB_ROOT_URL = 'http://api.indeed.com/ads/apisearch?';
 const JOBS_QUERY_PARAMS = {
@@ -32,3 +35,10 @@ export const fetchJobs = (region, callback) => async dispatch => {
     Reactotron.log(error)
   }
 };
+
+export const likeJob = (job) => {
+  return {
+    LIKE_JOB,
+    payload: job
+  }
+}
