@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, Text, View, Platform, ScrollView } from 'react-native';
+
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 import Reactotron from 'reactotron-react-native';
-import { Button } from 'react-native-elements';
+import { Button, Card } from 'react-native-elements';
 
-
-export default class ReviewScreen extends Component {
+class ReviewScreen extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: "Review Jobs",
@@ -22,11 +24,26 @@ export default class ReviewScreen extends Component {
     }
   })
 
+  renderLikeJobs = () => {
+    return this.props.likedJobs.map(job => {
+      return (
+        <Card>
+          <View style={{ height: 200 }}>
+            <View style={styles.detailWrapper}>
+              <Text style={styles.italic}>{job.company}</Text>
+              <Text style={styles.italic}>{job.formattedRelativeTime}</Text>
+            </View>
+          </View>
+        </Card>
+      )
+    })
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Auth Screen</Text>
-      </View>
+      <ScrollView>
+        {this.renderLikeJobs()}
+      </ScrollView>
     );
   }
 }
@@ -34,8 +51,21 @@ export default class ReviewScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  detailWrapper: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  italic: {
+    fontStyle: 'italic'
+  }
 });
+
+const mapStateToProps = state => {
+  return {
+    likedJobs: state.likedJobs
+  }
+}
+
+export default connect(mapStateToProps, actions)(ReviewScreen);
