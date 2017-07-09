@@ -8,6 +8,13 @@ import Reactotron from 'reactotron-react-native';
 import { Button } from 'react-native-elements';
 
 class SettingsScreen extends Component {
+
+  static navigationOptions = {
+    headerStyle: {
+      marginTop: Platform.OS === "android" ? 24 : 0
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>

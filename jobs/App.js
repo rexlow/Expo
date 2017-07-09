@@ -29,6 +29,7 @@ const MainNavigator = TabNavigator({
         })
       }
     }, {
+      tabBarPosition: 'bottom', // make sure on android on bottom too
       tabBarOptions: {
         labelStyle: { fontSize: 12 }
       }
