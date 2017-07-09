@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Platform, ScrollView, Linking } from 'react-native';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import Reactotron from 'reactotron-react-native';
 import { Button, Card } from 'react-native-elements';
+import { MapView } from 'expo';
 
 class ReviewScreen extends Component {
 
@@ -24,20 +25,37 @@ class ReviewScreen extends Component {
     }
   })
 
-  renderLikeJobs = () => {
-    return this.props.likedJobs.map(job => {
-      return (
-        <Card>
-          <View style={{ height: 200 }}>
-            <View style={styles.detailWrapper}>
-              <Text style={styles.italic}>{job.company}</Text>
-              <Text style={styles.italic}>{job.formattedRelativeTime}</Text>
-            </View>
+  renderLikeJobs = () => this.props.likedJobs.map(job => {
+    const { 
+      company, formattedRelativeTime, url, 
+      latitude, longitude, jobtitle, jobkey } = job;
+    const initialRegion = {
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 0.045,
+      longitudeDelta: 0.02
+    }
+    return (
+      <Card key={jobkey} title={jobtitle}>
+         <MapView
+          scrollEnabled={false}
+          style={{ flex: 1 }}
+          cacheEnabled={Platform.OS === 'android'}
+          initialRegion={initialRegion}
+        />
+        <View style={{ height: 200 }}>
+          <View style={styles.detailWrapper}>
+            <Text style={styles.italic}>{company}</Text>
+            <Text style={styles.italic}>{formattedRelativeTime}</Text>
           </View>
-        </Card>
-      )
-    })
-  }
+          <Button
+            title="Apply Now!"
+            backgroundColor="#03A9F4"
+            onPress={() => Linking.openURL(url)} />
+        </View>
+      </Card>
+    )
+  })
 
   render() {
     return (
@@ -53,6 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailWrapper: {
+    marginTop: 10,
     marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-around'
