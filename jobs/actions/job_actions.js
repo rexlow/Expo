@@ -7,6 +7,7 @@ import Reactotron from 'reactotron-react-native';
 import { 
   FETCH_JOBS,
   LIKE_JOB,
+  CLEAR_LIKED_JOBS
 } from "./types";
 
 const JOB_ROOT_URL = 'http://api.indeed.com/ads/apisearch?';
@@ -40,5 +41,11 @@ export const likeJob = (job) => {
   return {
     type: LIKE_JOB,
     payload: job
+  }
+}
+
+export const clearLikedJobs = () => {
+  return {
+    type: CLEAR_LIKED_JOBS
   }
 }
