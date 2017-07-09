@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   LIKE_JOB,
   CLEAR_LIKED_JOBS
@@ -12,6 +13,8 @@ export default (state = [], action) => {
       ], 'jobkey')
     case CLEAR_LIKED_JOBS:
       return [];
+    case REHYDRATE:
+      return action.payload.likedJobs || []; // empty array is to catch the first time app runs
     default:
       return state;
   }
